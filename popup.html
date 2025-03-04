@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mistyped Words</title>
+  <script src="popup.js" defer></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      width: 300px;
+      padding: 10px;
+    }
+    .word {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #ccc;
+      padding: 5px 0;
+    }
+    .word span {
+      font-size: 16px;
+    }
+    button {
+      background: red;
+      color: white;
+      border: none;
+      cursor: pointer;
+      padding: 3px 6px;
+      border-radius: 3px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Mistyped Words</h2>
+  <div id="words"></div>
+</body>
+</html>
