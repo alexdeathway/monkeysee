@@ -41,39 +41,46 @@ async function extractCorrectWords() {
 //observer monitor when element resultWordsHistory and wpmChart are present
 //need better way to detect as they are present in background as well
 //
-
-let observer;
+let observer = null;
 
 function startObserver() {
-    //kill the observer before if present
-    if (observer) observer.disconnect(); 
+    if (observer) {
+        console.log("Observer already running, skipping reinitialization.");
+        return;
+    }
 
-    observer = new MutationObserver((mutations) => {
-        mutations.forEach((mutation) => {
-            console.log("mutation detected before obsever element");
-            if (document.getElementById("resultWordsHistory") && document.getElementById("wpmChart")) {
-                console.log("trigger elements found extracting words..");
-                extractCorrectWords();
-            }
-            else {
-                console.log("something went wrong, target elements not found");
-            }
-        });
+    observer = new MutationObserver(() => {
+        const resultElement = document.getElementById("result");
+
+        if (resultElement && !resultElement.classList.contains("hidden")) {
+            console.log("Trigger element found and visible, extracting words...");
+            extractCorrectWords();
+            return;
+        }
+        
+        console.log("Mutation detected, but target element not found or still hidden.");
     });
 
     observer.observe(document.body, { childList: true, subtree: true });
+    console.log("MutationObserver started.");
 }
 
-//check for the visibility of the document
+
 document.addEventListener("visibilitychange", () => {
     if (document.visibilityState === "visible") {
-        startObserver(); 
-        if (document.getElementById("resultWordsHistory") && document.getElementById("wpmChart")) {
-            console.log("visibilitychange triggered");
-            extractCorrectWords(); 
+        startObserver();
+        const resultElement = document.getElementById("result");
+
+        if (resultElement && !resultElement.classList.contains("hidden")) {
+            console.log("Visibility change triggered, extracting words...");
+            extractCorrectWords();
         }
     } else {
-        if (observer) observer.disconnect(); 
+        if (observer) {
+            observer.disconnect();
+            observer = null; 
+            console.log("Observer disconnected due to visibility change.");
+        }
     }
 });
 
