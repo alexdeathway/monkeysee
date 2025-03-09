@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "MonkeySee",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Track words that were mistyped in Monkeytype",
   "permissions": ["storage"],
   "background": {
